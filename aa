@@ -1,0 +1,2581 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>EUROMECHANIC | FullPage Vertical Slider + Horizontal Slider</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        height: 100dvh;
+    }
+
+    body {
+        font-family: 'Cairo', sans-serif;
+        background: #1a1a1a;
+        overflow: hidden;
+    }
+
+    ::-webkit-scrollbar { display: none; }
+    * { scrollbar-width: none; }
+
+    * {
+        text-wrap: wrap !important;
+    }
+
+/* ===== توحيد خط العناوين على Cairo ===== */
+h1, h2, h3, h4, h5, h6,
+.slide-text h2,
+.licences-title h2,
+.skills-title h2,
+.experience-title h2,
+.education-title h2,
+.contact-title h2,
+.social-title h2,
+.licence-card h3,
+.skill-card-header h3,
+.timeline-role h3,
+.education-info h3,
+.contact-card-value,
+.social-info-row span,
+.lang-item .lang-name {
+    font-family: 'Cairo', sans-serif !important;
+    font-weight: 800;
+}
+    .vertical-slider {
+        height: 100dvh;
+        width: 100%;
+        overflow-y: scroll;
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+        scroll-padding-top: 0;
+        position: relative;
+        z-index: 1;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    /* ===== قائمة النبذة (About me) - متوافقة مع باقي الصفحات ===== */
+    .pitch-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .pitch-list li.pitch-text {
+        color: #e8e8e8;
+        font-size: 1.1rem;
+        line-height: 1.9;
+        font-weight: 400;
+        text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+        position: relative;
+        padding-left: 26px;
+        text-align: left;
+        animation: fadeInUp 0.6s ease-out backwards;
+        transition: color 0.25s ease, transform 0.25s ease;
+    }
+
+    .pitch-list li.pitch-text:nth-child(1) { animation-delay: 0.1s; }
+    .pitch-list li.pitch-text:nth-child(2) { animation-delay: 0.25s; }
+
+    /* النقطة الخضراء */
+    .pitch-list li.pitch-text::before {
+        content: '\f111'; /* fa-circle */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        color: #39ff14;
+        font-size: 0.5rem;
+        position: absolute;
+        left: 0;
+        top: 14px;
+        text-shadow: 0 0 8px rgba(57, 255, 20, 0.7);
+        transition: 0.25s;
+    }
+
+    .pitch-list li.pitch-text:hover {
+        color: #ffffff;
+        transform: translateX(3px);
+    }
+
+    .pitch-list li.pitch-text:hover::before {
+        text-shadow: 0 0 14px rgba(57, 255, 20, 0.9);
+    }
+
+    .pitch-list li.pitch-text strong {
+        color: #39ff14;
+        font-weight: 700;
+    }
+
+    .v-section {
+        min-height: 100dvh;
+        width: 100%;
+        scroll-snap-align: start;
+        scroll-margin-top: 0;
+        overflow-y: visible;
+        position: relative;
+        background-color: transparent;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .first-section, .social-section {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .section-content {
+        min-height: 100dvh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        z-index: 2;
+        margin: 0 !important;
+        padding: 0 24px !important;
+    }
+
+    .first-section .section-content { justify-content: center; }
+    .social-section .section-content { justify-content: center; }
+
+    .first-section,
+    .first-section .section-content {
+        height: 100dvh;
+        padding: 0 !important;
+    }
+
+    /* ============ السلايدر ============ */
+    .swiper-container {
+        width: 100%;
+        height: 100dvh !important;
+        border-radius: 0px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        direction: rtl;
+    }
+    .swiper-slide {
+        background-size: cover;
+        background-position: top;
+        background-repeat: no-repeat;
+        position: relative;
+        border-radius: 0px;
+    }
+    /* ===== Overlay مزدوج لزيادة وضوح النص ===== */
+    .swiper-slide::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: 
+            linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 35%, transparent 60%),
+            linear-gradient(125deg, rgba(0,0,0,0.7) 0%, rgba(57,255,20,0.07) 50%, rgba(0,0,0,0.6) 100%);
+        z-index: 1;
+    }
+    .slide-text {
+        position: absolute;
+        bottom: 12%; right: 8%; left: 8%;
+        color: #ffffff;
+        z-index: 2;
+        text-align: right;
+    }
+    .slide-text h2 {
+        font-size: 3.2rem;
+        font-weight: 800;
+        margin-bottom: 12px;
+        letter-spacing: -0.5px;
+        color: #ffffff;
+        /* Shadow احترافي متعدد الطبقات */
+        text-shadow: 
+            0 1px 2px rgba(0, 0, 0, 0.9),
+            0 4px 12px rgba(0, 0, 0, 0.75),
+            0 8px 30px rgba(0, 0, 0, 0.55);
+    }
+    .slide-text h2 span {
+        color: #39ff14;
+        font-weight: 900;
+        text-shadow: 
+            0 1px 2px rgba(0, 0, 0, 0.9),
+            0 0 12px rgba(57, 255, 20, 0.85),
+            0 0 28px rgba(57, 255, 20, 0.55),
+            0 0 50px rgba(57, 255, 20, 0.35);
+    }
+    .slide-text p {
+        font-size: 1.2rem;
+        opacity: 0.98;
+        color: #ffffff;
+        font-weight: 500;
+        text-shadow: 
+            0 1px 2px rgba(0, 0, 0, 0.9),
+            0 3px 10px rgba(0, 0, 0, 0.7);
+    }
+
+    /* ===== إبعاد نص الـ timeline والـ skills عن النقط على الموبايل ===== */
+    .timeline-item {
+        padding-right: 30px !important;
+    }
+
+    .timeline-list li,
+    .skill-list li {
+        text-align: left;
+        padding-right: 0;
+    }
+
+    .timeline-role h3,
+    .timeline-role .company {
+        text-align: left;
+    }
+
+    /* ===== Badges احترافية مع Shadow داخلي وخارجي ===== */
+    .slide-badges {
+        margin-top: 22px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    .slide-badge {
+        background: rgba(0, 0, 0, 0.55);
+        color: #39ff14;
+        border: 1px solid rgba(57, 255, 20, 0.55);
+        padding: 9px 22px;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        backdrop-filter: blur(12px) saturate(160%);
+        -webkit-backdrop-filter: blur(12px) saturate(160%);
+        transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+        /* Shadow احترافي: خارجي + inner glow */
+        box-shadow: 
+            0 4px 14px rgba(0, 0, 0, 0.55),
+            0 1px 3px rgba(0, 0, 0, 0.7),
+            0 0 0 1px rgba(57, 255, 20, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            inset 0 0 20px rgba(57, 255, 20, 0.06);
+        text-shadow: 
+            0 1px 3px rgba(0, 0, 0, 0.9),
+            0 0 10px rgba(57, 255, 20, 0.35);
+        letter-spacing: 0.3px;
+    }
+    .slide-badge:hover {
+        background: rgba(57, 255, 20, 0.18);
+        border-color: #39ff14;
+        color: #ffffff;
+        transform: translateY(-3px);
+        box-shadow: 
+            0 8px 22px rgba(0, 0, 0, 0.6),
+            0 0 0 1px rgba(57, 255, 20, 0.4),
+            0 0 25px rgba(57, 255, 20, 0.45),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 0 22px rgba(57, 255, 20, 0.15);
+        text-shadow: 
+            0 1px 3px rgba(0, 0, 0, 0.9),
+            0 0 14px rgba(57, 255, 20, 0.7);
+    }
+    .slide-badge i { 
+        font-size: 0.9rem;
+        filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.8));
+    }
+
+    .swiper-button-next, .swiper-button-prev {
+        color: #39ff14;
+        width: 46px; height: 46px;
+        border-radius: 50%;
+        transition: 0.3s;
+    }
+    .swiper-button-next:hover, .swiper-button-prev:hover { color: #ffffff; }
+    .swiper-pagination-bullet { background: #a0a0a0; opacity: 0.8; }
+    .swiper-pagination-bullet-active { background: #39ff14; transform: scale(1.2); }
+
+    /* ============ الأقسام المشتركة ============ */
+    .pitch-section,
+    .about-section,
+    .licences-section,
+    .skills-section,
+    .experience-section,
+    .education-section,
+    .contact-section,
+    .social-section {
+        background: transparent;
+    }
+
+    .pitch-section::before,
+    .about-section::before,
+    .licences-section::before,
+    .skills-section::before,
+    .experience-section::before,
+    .education-section::before,
+    .contact-section::before,
+    .social-section::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-image: 
+            linear-gradient(125deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.88) 100%),
+            url('https://truckdriver.shairha.com/wp-content/uploads/2026/10/BACKGROUND_1.webp');
+        background-size: cover, cover;
+        background-position: center center, center center;
+        background-repeat: no-repeat, no-repeat;
+        background-attachment: scroll, scroll;
+        z-index: 1;
+    }
+
+    .pitch-section .section-content,
+    .about-section .section-content,
+    .licences-section .section-content,
+    .skills-section .section-content,
+    .experience-section .section-content,
+    .education-section .section-content,
+    .contact-section .section-content,
+    .social-section .section-content {
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+    }
+
+    .pitch-box {
+        max-width: 950px;
+        width: 100%;
+        background: rgba(20, 20, 20, 0.75);
+        border: 1px solid rgba(57, 255, 20, 0.35);
+        border-radius: 28px;
+        padding: 50px 45px;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6),
+                    0 0 40px rgba(57, 255, 20, 0.08);
+        text-align: right;
+        direction: ltr;
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    /* ===== الصفحة الثانية (Pitch) - الكلام من الشمال ===== */
+    .pitch-section .pitch-box {
+        text-align: left;
+    }
+
+    .pitch-section .pitch-box .pitch-text {
+        text-align: left;
+    }
+
+    .pitch-section .pitch-box .pitch-label {
+        text-align: left;
+    }
+
+    /* ===== الصفحة الثالثة (About Me) - الكلام من الشمال زي التانية ===== */
+    .about-section .pitch-box {
+        text-align: left;
+    }
+
+    .about-section .pitch-box .pitch-text {
+        text-align: left;
+    }
+
+    .about-section .pitch-box .pitch-label {
+        text-align: left;
+    }
+
+    .about-section .about-tags {
+        justify-content: flex-start;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .pitch-label {
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #39ff14;
+        background: rgba(57, 255, 20, 0.1);
+        border: 1px solid rgba(57, 255, 20, 0.4);
+        padding: 8px 20px;
+        border-radius: 40px;
+        margin-bottom: 28px;
+    }
+
+    .pitch-text {
+        font-size: 1.35rem;
+        line-height: 2;
+        color: #e8e8e8;
+        font-weight: 400;
+        text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+    }
+
+    .pitch-text strong {
+        color: #39ff14;
+        font-weight: 700;
+    }
+
+    .pitch-actions {
+        display: flex;
+        gap: 18px;
+        margin-top: 38px;
+        flex-wrap: wrap;
+        direction: ltr;
+    }
+
+    .pitch-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 16px 32px;
+        font-size: 1rem;
+        font-weight: 700;
+        font-family: 'Cairo', sans-serif;
+        text-decoration: none;
+        border-radius: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        letter-spacing: 0.3px;
+        white-space: nowrap;
+    }
+
+    .pitch-btn-cv {
+        background: #39ff14;
+        color: #1a1a1a;
+        border-color: #39ff14;
+        box-shadow: 0 0 20px rgba(57, 255, 20, 0.25);
+    }
+    .pitch-btn-cv:hover {
+        background: transparent;
+        color: #39ff14;
+        transform: translateY(-3px);
+        box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
+    }
+
+    .pitch-btn-wa {
+        background: transparent;
+        color: #ffffff;
+        border-color: rgba(255, 255, 255, 0.4);
+    }
+    .pitch-btn-wa:hover {
+        background: #25D366;
+        border-color: #25D366;
+        color: #ffffff;
+        transform: translateY(-3px);
+        box-shadow: 0 0 30px rgba(37, 211, 102, 0.5);
+    }
+
+    .pitch-btn i { font-size: 1.15rem; }
+
+    /* ===== About Me ===== */
+    .about-section .pitch-text {
+        font-size: 1.2rem;
+        line-height: 2.1;
+    }
+    .about-section .pitch-text p + p {
+        margin-top: 22px;
+    }
+
+    .about-tags {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 30px;
+        direction: ltr;
+    }
+    .about-tag {
+        background: rgba(57,255,20,0.1);
+        color: #39ff14;
+        border: 1px solid rgba(57,255,20,0.4);
+        padding: 7px 18px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.3s;
+    }
+    .about-tag:hover {
+        background: rgba(57,255,20,0.2);
+        transform: translateY(-2px);
+    }
+
+    /* ===== Licences Section ===== */
+    .licences-box {
+        max-width: 1100px;
+        width: 100%;
+        text-align: right;
+        direction: ltr;
+    }
+
+    .licences-title {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .licences-title h2 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+        text-shadow: 0 2px 15px rgba(0,0,0,0.6);
+    }
+
+    .licences-title h2 span {
+        color: #39ff14;
+        text-shadow: 0 0 15px rgba(57,255,20,0.6);
+    }
+
+    .licences-title p {
+        color: #a0a0a0;
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+
+    .licences-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+    }
+
+    .licence-card {
+        background: rgba(20, 20, 20, 0.78);
+        border: 1px solid rgba(57, 255, 20, 0.25);
+        border-radius: 22px;
+        padding: 28px 26px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        transition: all 0.35s ease;
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 0.6s ease-out backwards;
+    }
+
+    .licence-card:nth-child(1) { animation-delay: 0.05s; }
+    .licence-card:nth-child(2) { animation-delay: 0.15s; }
+    .licence-card:nth-child(3) { animation-delay: 0.25s; }
+
+    .licence-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 4px;
+        height: 100%;
+        background: #39ff14;
+        box-shadow: 0 0 15px rgba(57,255,20,0.6);
+        opacity: 0.6;
+        transition: 0.3s;
+    }
+
+    .licence-card:hover {
+        border-color: rgba(57, 255, 20, 0.7);
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.5),
+                    0 0 30px rgba(57,255,20,0.15);
+    }
+
+    .licence-card:hover::before {
+        opacity: 1;
+        width: 6px;
+    }
+
+    /* ===== صف الأيقونة + الحالة ===== */
+    .licence-top-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .licence-top-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+    }
+
+    .licence-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 14px;
+        background: rgba(57,255,20,0.12);
+        border: 1px solid rgba(57,255,20,0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #39ff14;
+        font-size: 1.5rem;
+        margin-bottom: 18px;
+    }
+
+    .licence-top-row .licence-icon {
+        margin-bottom: 0;
+    }
+
+    .licence-card h3 {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #ffffff;
+        margin-bottom: 16px;
+        letter-spacing: 0.3px;
+        line-height: 1.5;
+    }
+
+    .licence-card h3 span {
+        color: #39ff14;
+    }
+
+    .licence-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .licence-meta-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.92rem;
+        padding: 8px 0;
+        border-bottom: 1px dashed rgba(255,255,255,0.08);
+    }
+
+    .licence-meta-row:last-child {
+        border-bottom: none;
+    }
+
+    .licence-meta-row .label {
+        color: #a0a0a0;
+        font-weight: 500;
+    }
+
+    .licence-meta-row .value {
+        color: #e8e8e8;
+        font-weight: 600;
+        text-align: right;
+    }
+
+    .licence-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(57,255,20,0.15);
+        color: #39ff14;
+        border: 1px solid rgba(57,255,20,0.45);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+
+    .licence-status::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #39ff14;
+        box-shadow: 0 0 8px #39ff14;
+        animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+    }
+
+    /* ===== زرار View (أيقونة عين فقط) ===== */
+    .licence-view-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        background: rgba(57,255,20,0.1);
+        color: #39ff14;
+        border: 1px solid rgba(57,255,20,0.5);
+        border-radius: 50%;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.35s ease;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.4),
+                    inset 0 1px 0 rgba(255,255,255,0.06),
+                    inset 0 0 14px rgba(57,255,20,0.06);
+        flex-shrink: 0;
+        padding: 0;
+    }
+    .licence-view-btn i {
+        font-size: 0.95rem;
+        filter: drop-shadow(0 1px 3px rgba(0,0,0,0.7));
+        pointer-events: none;
+    }
+    .licence-view-btn:hover {
+        background: rgba(57,255,20,0.25);
+        border-color: #39ff14;
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(0,0,0,0.5),
+                    0 0 22px rgba(57,255,20,0.4),
+                    inset 0 1px 0 rgba(255,255,255,0.12);
+    }
+
+    .licence-card.safety-record {
+        grid-column: 1 / -1;
+        background: linear-gradient(125deg, rgba(57,255,20,0.12) 0%, rgba(20,20,20,0.85) 100%);
+        border-color: rgba(57,255,20,0.5);
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        padding: 30px 32px;
+        flex-wrap: wrap;
+    }
+
+    .licence-card.safety-record::before {
+        opacity: 1;
+        width: 5px;
+    }
+
+    .licence-card.safety-record .licence-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 2rem;
+        background: rgba(57,255,20,0.18);
+        border-color: rgba(57,255,20,0.55);
+        box-shadow: 0 0 25px rgba(57,255,20,0.3);
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
+
+    .safety-content {
+        flex: 1;
+        min-width: 250px;
+    }
+
+    .safety-content h3 {
+        margin-bottom: 8px;
+        font-size: 1.3rem;
+    }
+
+    .safety-content p {
+        color: #c0c0c0;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .safety-content p strong {
+        color: #39ff14;
+        font-weight: 700;
+    }
+
+    /* ===== Popup / Lightbox ===== */
+    .licence-popup {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.88);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.35s ease, visibility 0.35s ease;
+        padding: 24px;
+    }
+    .licence-popup.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    .licence-popup-inner {
+        position: relative;
+        max-width: 900px;
+        width: 100%;
+        max-height: 90dvh;
+        background: rgba(20, 20, 20, 0.95);
+        border: 1px solid rgba(57, 255, 20, 0.5);
+        border-radius: 22px;
+        padding: 20px;
+        box-shadow: 0 25px 70px rgba(0,0,0,0.8),
+                    0 0 60px rgba(57,255,20,0.18);
+        transform: scale(0.9);
+        transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+    .licence-popup.active .licence-popup-inner {
+        transform: scale(1);
+    }
+    .licence-popup-inner img {
+        max-width: 100%;
+        max-height: calc(90dvh - 40px);
+        border-radius: 14px;
+        display: block;
+        object-fit: contain;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+    .licence-popup-close {
+        position: absolute;
+        top: -14px;
+        right: -14px;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #39ff14;
+        color: #1a1a1a;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        font-weight: 900;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.6),
+                    0 0 22px rgba(57,255,20,0.55);
+        z-index: 2;
+    }
+    .licence-popup-close:hover {
+        background: #ffffff;
+        color: #1a1a1a;
+        transform: rotate(90deg) scale(1.08);
+        box-shadow: 0 8px 26px rgba(0,0,0,0.7),
+                    0 0 32px rgba(57,255,20,0.8);
+    }
+    .licence-popup-close i {
+        pointer-events: none;
+    }
+
+    /* ===== Skills Section ===== */
+    .skills-box {
+        max-width: 1150px;
+        width: 100%;
+        text-align: right;
+        direction: ltr;
+    }
+
+    .skills-title {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .skills-title h2 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+        text-shadow: 0 2px 15px rgba(0,0,0,0.6);
+    }
+
+    .skills-title h2 span {
+        color: #39ff14;
+        text-shadow: 0 0 15px rgba(57,255,20,0.6);
+    }
+
+    .skills-title p {
+        color: #a0a0a0;
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+
+    .skills-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+    }
+
+    .skill-card {
+        background: rgba(20, 20, 20, 0.78);
+        border: 1px solid rgba(57, 255, 20, 0.25);
+        border-radius: 22px;
+        padding: 30px 28px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        transition: all 0.35s ease;
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 0.6s ease-out backwards;
+    }
+
+    .skill-card:hover {
+        border-color: rgba(57, 255, 20, 0.6);
+        transform: translateY(-4px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.5),
+                    0 0 25px rgba(57,255,20,0.12);
+    }
+
+    .skill-card-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 22px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid rgba(57,255,20,0.2);
+    }
+
+    .skill-card-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: rgba(57,255,20,0.12);
+        border: 1px solid rgba(57,255,20,0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #39ff14;
+        font-size: 1.4rem;
+        flex-shrink: 0;
+    }
+
+    .skill-card-header h3 {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: 0.3px;
+    }
+
+    .skill-card-header h3 span {
+        color: #39ff14;
+        display: block;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-top: 4px;
+    }
+
+    .skill-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .skill-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        color: #dcdcdc;
+        font-size: 0.95rem;
+        line-height: 1.55;
+        padding: 8px 0;
+        transition: 0.25s;
+    }
+
+    .skill-list li:hover {
+        color: #ffffff;
+        transform: translateX(3px);
+    }
+
+    .skill-list li i {
+        color: #39ff14;
+        font-size: 0.85rem;
+        margin-top: 6px;
+        flex-shrink: 0;
+        text-shadow: 0 0 6px rgba(57,255,20,0.6);
+    }
+
+    /* ===== Experience Section ===== */
+    .experience-box {
+        max-width: 1000px;
+        width: 100%;
+        text-align: right;
+        direction: ltr;
+    }
+
+    .experience-title {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .experience-title h2 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+        text-shadow: 0 2px 15px rgba(0,0,0,0.6);
+    }
+
+    .experience-title h2 span {
+        color: #39ff14;
+        text-shadow: 0 0 15px rgba(57,255,20,0.6);
+    }
+
+    .experience-title p {
+        color: #a0a0a0;
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+
+    .timeline {
+        position: relative;
+        padding-right: 40px;
+        direction: ltr;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        right: 12px;
+        top: 10px;
+        bottom: 10px;
+        width: 3px;
+        background: linear-gradient(180deg, #39ff14 0%, rgba(57,255,20,0.2) 100%);
+        border-radius: 10px;
+        box-shadow: 0 0 12px rgba(57,255,20,0.4);
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 26px;
+        background: rgba(20, 20, 20, 0.78);
+        border: 1px solid rgba(57, 255, 20, 0.25);
+        border-radius: 22px;
+        padding: 28px 30px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        transition: all 0.35s ease;
+        animation: fadeInUp 0.6s ease-out backwards;
+    }
+
+    .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+    .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        right: -34px;
+        top: 34px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #1a1a1a;
+        border: 3px solid #39ff14;
+        box-shadow: 0 0 15px rgba(57,255,20,0.7);
+        z-index: 2;
+    }
+
+    .timeline-item:hover {
+        border-color: rgba(57, 255, 20, 0.65);
+        transform: translateX(-6px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.5),
+                    0 0 25px rgba(57,255,20,0.15);
+    }
+
+    .timeline-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+    }
+
+    .timeline-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: rgba(57,255,20,0.12);
+        border: 1px solid rgba(57,255,20,0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #39ff14;
+        font-size: 1.4rem;
+        flex-shrink: 0;
+    }
+
+    .timeline-role {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .timeline-role h3 {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: 0.3px;
+        margin-bottom: 4px;
+    }
+
+    .timeline-role h3 span {
+        color: #39ff14;
+    }
+
+    .timeline-role .company {
+        color: #a0a0a0;
+        font-size: 0.88rem;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+    }
+
+    .timeline-period {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(57,255,20,0.12);
+        color: #39ff14;
+        border: 1px solid rgba(57,255,20,0.4);
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+
+    .timeline-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .timeline-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        color: #dcdcdc;
+        font-size: 0.94rem;
+        line-height: 1.6;
+        padding: 6px 0;
+        transition: 0.25s;
+    }
+
+    .timeline-list li:hover {
+        color: #ffffff;
+        transform: translateX(3px);
+    }
+
+    .timeline-list li i {
+        color: #39ff14;
+        font-size: 0.8rem;
+        margin-top: 7px;
+        flex-shrink: 0;
+        text-shadow: 0 0 6px rgba(57,255,20,0.6);
+    }
+
+    /* ===== Education Section ===== */
+    .education-box {
+        max-width: 1000px;
+        width: 100%;
+        text-align: right;
+        direction: ltr;
+    }
+
+    .education-title {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .education-title h2 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+        text-shadow: 0 2px 15px rgba(0,0,0,0.6);
+    }
+
+    .education-title h2 span {
+        color: #39ff14;
+        text-shadow: 0 0 15px rgba(57,255,20,0.6);
+    }
+
+    .education-title p {
+        color: #a0a0a0;
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+
+    /* كل كارت تعليمي */
+    .education-card {
+        background: rgba(20, 20, 20, 0.78);
+        border: 1px solid rgba(57, 255, 20, 0.3);
+        border-radius: 26px;
+        padding: 38px 40px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        transition: all 0.35s ease;
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 0.7s ease-out;
+    }
+
+    .education-card + .education-card {
+        margin-top: 22px;
+    }
+
+    .education-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 5px;
+        height: 100%;
+        background: #39ff14;
+        box-shadow: 0 0 18px rgba(57,255,20,0.7);
+    }
+
+    .education-card:hover {
+        border-color: rgba(57, 255, 20, 0.65);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.55),
+                    0 0 35px rgba(57,255,20,0.18);
+    }
+
+    .education-header {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-bottom: 24px;
+        padding-bottom: 22px;
+        border-bottom: 1px solid rgba(57,255,20,0.18);
+        flex-wrap: wrap;
+    }
+
+    .education-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 18px;
+        background: rgba(57,255,20,0.15);
+        border: 1px solid rgba(57,255,20,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #39ff14;
+        font-size: 1.9rem;
+        flex-shrink: 0;
+        box-shadow: 0 0 25px rgba(57,255,20,0.25);
+    }
+    /* ===== صف الجامعة + التاريخ ===== */
+    .education-meta-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    .education-meta-row .university {
+        margin-bottom: 0;
+    }
+    .education-info {
+        flex: 1;
+        text-align: left;
+
+        min-width: 250px;
+    }
+
+    .education-info h3 {
+        font-size: 1.45rem;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: 0.3px;
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+    .education-info {
+        text-align: left;
+    }
+
+    .education-info h3,
+    .education-info h3 span {
+        text-align: left;
+    }
+
+    .education-info .university {
+        justify-content: flex-start;
+    }
+
+    .education-header {
+        justify-content: flex-start;
+    }
+    .education-info h3 span {
+        color: #39ff14;
+    }
+
+    .education-info .university {
+        color: #dcdcdc;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .education-info .university i {
+        color: #39ff14;
+        font-size: 0.9rem;
+    }
+
+    .education-period {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(57,255,20,0.12);
+        color: #39ff14;
+        border: 1px solid rgba(57,255,20,0.4);
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+
+    .education-desc {
+        color: #c8c8c8;
+        font-size: 1rem;
+        line-height: 1.85;
+        text-align: right;
+    }
+
+    .education-desc strong {
+        color: #39ff14;
+        font-weight: 700;
+    }
+
+    /* ===== Languages Grid ===== */
+    .languages-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+    }
+
+    .lang-item {
+        background: rgba(0,0,0,0.4);
+        border: 1px solid rgba(57,255,20,0.3);
+        border-radius: 16px;
+        padding: 24px 20px;
+        text-align: center;
+        transition: 0.3s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .lang-item:hover {
+        border-color: rgba(57,255,20,0.7);
+        background: rgba(57,255,20,0.08);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4),
+                    0 0 20px rgba(57,255,20,0.15);
+    }
+
+    .lang-item .lang-name {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+    }
+
+    .lang-item .lang-level {
+        color: #39ff14;
+        font-size: 0.88rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    /* ===== Contact Section ===== */
+    .contact-box {
+        max-width: 950px;
+        width: 100%;
+        text-align: right;
+        direction: ltr;
+    }
+
+    .contact-title {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .contact-title h2 {
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+        text-shadow: 0 2px 15px rgba(0,0,0,0.6);
+    }
+
+    .contact-title h2 span {
+        color: #39ff14;
+        text-shadow: 0 0 15px rgba(57,255,20,0.6);
+    }
+
+    .contact-title p {
+        color: #a0a0a0;
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+
+    .contact-intro {
+    text-align: left;
+    direction: ltr;
+
+        background: rgba(20, 20, 20, 0.78);
+        border: 1px solid rgba(57, 255, 20, 0.3);
+        border-radius: 24px;
+        padding: 32px 34px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        margin-bottom: 26px;
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    .contact-intro::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 5px;
+        height: 100%;
+        background: #39ff14;
+        box-shadow: 0 0 18px rgba(57,255,20,0.7);
+    }
+
+    .contact-intro p {
+    text-align: left;
+    direction: ltr;
+        color: #e0e0e0;
+        font-size: 1.15rem;
+        line-height: 1.9;
+        text-align: right;
+        text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
+
+    .contact-intro p strong {
+        color: #39ff14;
+        font-weight: 700;
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        margin-bottom: 40px;
+    }
+
+    .contact-card {
+        background: rgba(20, 20, 20, 0.78);
+        border: 1px solid rgba(57, 255, 20, 0.25);
+        border-radius: 20px;
+        padding: 26px 22px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        transition: all 0.35s ease;
+        text-align: center;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        animation: fadeInUp 0.6s ease-out backwards;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .contact-card:nth-child(1) { animation-delay: 0.1s; }
+    .contact-card:nth-child(2) { animation-delay: 0.2s; }
+
+    .contact-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: #39ff14;
+        box-shadow: 0 0 12px rgba(57,255,20,0.7);
+        opacity: 0.5;
+        transition: 0.3s;
+    }
+
+    .contact-card:hover {
+        border-color: rgba(57, 255, 20, 0.7);
+        transform: translateY(-6px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.5),
+                    0 0 30px rgba(57,255,20,0.2);
+    }
+
+    .contact-card:hover::before {
+        opacity: 1;
+    }
+
+    .contact-card-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        background: rgba(57,255,20,0.12);
+        border: 1px solid rgba(57,255,20,0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #39ff14;
+        font-size: 1.6rem;
+        transition: 0.3s;
+    }
+
+    .contact-card:hover .contact-card-icon {
+        background: rgba(57,255,20,0.22);
+        box-shadow: 0 0 25px rgba(57,255,20,0.4);
+    }
+
+    .contact-card-label {
+        color: #a0a0a0;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    .contact-card-value {
+        color: #ffffff;
+        font-size: 1rem;
+        font-weight: 700;
+        word-break: break-word;
+        line-height: 1.4;
+        transition: 0.3s;
+    }
+
+    .contact-card:hover .contact-card-value {
+        color: #39ff14;
+        text-shadow: 0 0 10px rgba(57,255,20,0.5);
+    }
+
+    /* ============ Social Section ============ */
+    .social-box {
+        max-width: 900px;
+        width: 100%;
+        text-align: center;
+        direction: ltr;
+    }
+
+    .social-title {
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+    .social-title h2 {
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+        text-shadow: 0 2px 15px rgba(0,0,0,0.6);
+    }
+
+    .social-title h2 span {
+        color: #39ff14;
+        text-shadow: 0 0 15px rgba(57,255,20,0.6);
+    }
+
+    .social-title p {
+        color: #a0a0a0;
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+
+    .social-big-icons {
+        display: flex;
+        justify-content: center;
+        gap: 22px;
+        margin-top: 45px;
+        margin-bottom: 0;
+        flex-wrap: wrap;
+    }
+
+    .social-big-icon {
+        background: rgba(20, 20, 20, 0.78);
+        width: 85px;
+        height: 85px;
+        border-radius: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.2rem;
+        color: #ffffff;
+        text-decoration: none;
+        transition: 0.3s;
+        border: 1px solid rgba(57, 255, 20, 0.35);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .social-big-icon::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: #39ff14;
+        box-shadow: 0 0 12px rgba(57,255,20,0.7);
+        opacity: 0.5;
+        transition: 0.3s;
+    }
+
+    .social-big-icon:hover {
+        background: #39ff14;
+        color: #1a1a1a;
+        transform: translateY(-8px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.5),
+                    0 0 35px rgba(57,255,20,0.5);
+        border-color: #39ff14;
+    }
+
+    .social-big-icon:hover::before {
+        opacity: 1;
+    }
+
+    .social-info-block {
+        background: rgba(20, 20, 20, 0.78);
+        border: 1px solid rgba(57, 255, 20, 0.3);
+        border-radius: 24px;
+        padding: 32px 34px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 0.6s ease-out;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .social-info-block::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 5px;
+        height: 100%;
+        background: #39ff14;
+        box-shadow: 0 0 18px rgba(57,255,20,0.7);
+    }
+
+    .social-info-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 0;
+        border-bottom: 1px dashed rgba(255,255,255,0.08);
+        direction: ltr;
+    }
+
+    .social-info-row:last-child {
+        border-bottom: none;
+    }
+
+    .social-info-row i {
+        color: #39ff14;
+        font-size: 1.2rem;
+        width: 30px;
+        text-align: center;
+        flex-shrink: 0;
+        text-shadow: 0 0 8px rgba(57,255,20,0.6);
+    }
+
+    .social-info-row span {
+        color: #e0e0e0;
+        font-size: 1.05rem;
+        font-weight: 600;
+    }
+
+    .social-info-row a {
+        color: #e0e0e0;
+        text-decoration: none;
+        transition: 0.25s;
+    }
+
+    .social-info-row a:hover {
+        color: #39ff14;
+        text-shadow: 0 0 10px rgba(57,255,20,0.5);
+    }
+
+    .vertical-nav {
+        position: fixed;
+        right: 25px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 99;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .vertical-nav.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .nav-dot {
+        width: 2px;
+        height: 14px;
+        border-radius: 2px;
+        background-color: rgba(255, 255, 255, 0.35);
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+    }
+    .nav-dot.active {
+        height: 32px;
+        background-color: #39ff14;
+        box-shadow: 0 0 12px rgba(57, 255, 20, 0.8),
+                    0 0 4px rgba(57, 255, 20, 1);
+    }
+    .nav-dot:hover {
+        background-color: #39ff14;
+        box-shadow: 0 0 10px rgba(57, 255, 20, 0.6);
+    }
+
+    /* ===== إصلاح الموبايل ===== */
+    @media (max-width: 850px) {
+        /* ===== الصفحة 1: السلايدر ===== */
+        .slide-text { bottom: 8%; right: 5%; left: 5%; }
+        .slide-text h2 { font-size: 1.6rem; margin-bottom: 8px; }
+        .slide-text p { font-size: 1.1rem; line-height: 1.5; }
+        .slide-badges { margin-top: 14px; gap: 8px; }
+        .slide-badge { 
+            font-size: 0.72rem; 
+            padding: 6px 13px; 
+            gap: 6px;
+            box-shadow: 
+                0 3px 10px rgba(0, 0, 0, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06),
+                inset 0 0 14px rgba(57, 255, 20, 0.05);
+        }
+
+        /* ===== الصفحة 2 + 3: Pitch / About ===== */
+        .pitch-box { padding: 22px 18px; border-radius: 16px; }
+        .pitch-label { font-size: 10px; letter-spacing: 1.5px; padding: 6px 14px; margin-bottom: 16px; }
+        .pitch-text { font-size: 0.88rem; line-height: 1.7; }
+        .about-section .pitch-text { font-size: 0.85rem; line-height: 1.75; }
+        .about-section .pitch-text p + p { margin-top: 12px; }
+        .about-tags { gap: 7px; margin-top: 16px; }
+        .about-tag { font-size: 0.7rem; padding: 5px 12px; gap: 5px; }
+        .pitch-actions { flex-direction: column; width: 100%; gap: 10px; margin-top: 20px; }
+        .pitch-btn { width: 100%; padding: 11px 18px; font-size: 0.82rem; gap: 8px; border-radius: 10px; }
+        .pitch-btn i { font-size: 0.95rem; }
+
+        /* ===== About me - موبايل ===== */
+        .pitch-list {
+            gap: 12px;
+        }
+        .pitch-list li.pitch-text {
+            font-size: 0.85rem;
+            line-height: 1.75;
+            padding-left: 20px;
+        }
+        .pitch-list li.pitch-text::before {
+            font-size: 0.4rem;
+            top: 10px;
+        }
+
+        /* ===== الصفحة 4: Licences ===== */
+        .licences-title { margin-bottom: 20px; }
+        .licences-title h2 { font-size: 1.2rem; margin-bottom: 6px; }
+        .licences-title p { font-size: 0.75rem; letter-spacing: 0.5px; }
+        .licences-grid { grid-template-columns: 1fr; gap: 10px; }
+        .licence-card { padding: 16px 14px; border-radius: 16px; }
+        .licence-icon { width: 38px; height: 38px; font-size: 1rem; border-radius: 10px; margin-bottom: 10px; }
+        .licence-top-row { gap: 8px; margin-bottom: 10px; }
+        .licence-top-row .licence-icon { margin-bottom: 0; }
+        .licence-top-right { gap: 7px; }
+        .licence-card h3 { font-size: 0.88rem; line-height: 1.4; margin-bottom: 10px; }
+        .licence-meta { gap: 6px; }
+        .licence-meta-row { font-size: 0.78rem; padding: 5px 0; }
+        .licence-status { font-size: 0.68rem; padding: 3px 9px; }
+        .licence-view-btn { width: 30px; height: 30px; font-size: 0.78rem; }
+        .licence-view-btn i { font-size: 0.78rem; }
+        .licence-card.safety-record { flex-direction: row; text-align: right; gap: 12px; padding: 14px 14px; }
+        .licence-card.safety-record .licence-icon { width: 44px; height: 44px; font-size: 1.2rem; margin: 0; }
+        .safety-content h3 { font-size: 0.95rem; margin-bottom: 4px; }
+        .safety-content p { font-size: 0.78rem; line-height: 1.5; }
+        .licence-popup { padding: 14px; }
+        .licence-popup-inner { padding: 12px; border-radius: 16px; }
+        .licence-popup-inner img { max-height: calc(90dvh - 30px); border-radius: 10px; }
+        .licence-popup-close { width: 36px; height: 36px; top: -10px; right: -10px; font-size: 0.95rem; }
+
+        /* ===== الصفحة 5: Skills ===== */
+        .skills-title { margin-bottom: 20px; }
+        .skills-title h2 { font-size: 1.2rem; margin-bottom: 6px; }
+        .skills-title p { font-size: 0.75rem; letter-spacing: 0.5px; }
+        .skills-grid { grid-template-columns: 1fr; gap: 10px; }
+        .skill-card { padding: 16px 14px; border-radius: 16px; }
+        .skill-card-header { gap: 10px; margin-bottom: 12px; padding-bottom: 10px; }
+        .skill-card-icon { width: 38px; height: 38px; font-size: 1rem; border-radius: 10px; }
+        .skill-card-header h3 { font-size: 0.88rem; line-height: 1.3; }
+        .skill-card-header h3 span { font-size: 0.6rem; letter-spacing: 1.2px; margin-top: 2px; }
+        .skill-list { gap: 6px; }
+        .skill-list li { font-size: 0.8rem; line-height: 1.5; padding: 4px 0; gap: 8px; }
+        .skill-list li i { font-size: 0.55rem; margin-top: 6px; }
+
+        /* ===== الصفحة 6: Experience ===== */
+        .experience-title { margin-bottom: 20px; }
+        .experience-title h2 { font-size: 1.2rem; margin-bottom: 6px; }
+        .experience-title p { font-size: 0.75rem; letter-spacing: 0.5px; }
+        .timeline { padding-right: 22px; }
+        .timeline::before { right: 5px; width: 2px; }
+        .timeline-item { padding: 16px 14px; border-radius: 16px; margin-bottom: 14px; }
+        .timeline-item::before { right: -21px; width: 10px; height: 10px; top: 20px; border-width: 2px; }
+        .timeline-header { gap: 10px; margin-bottom: 10px; }
+        .timeline-icon { width: 38px; height: 38px; font-size: 1rem; border-radius: 10px; }
+        .timeline-role h3 { font-size: 0.88rem; line-height: 1.4; margin-bottom: 2px; }
+        .timeline-role .company { font-size: 0.75rem; }
+        .timeline-period { font-size: 0.65rem; padding: 4px 10px; gap: 5px; }
+        .timeline-list { gap: 6px; }
+        .timeline-list li { font-size: 0.78rem; line-height: 1.5; padding: 3px 0; gap: 8px; }
+        .timeline-list li i { font-size: 0.5rem; margin-top: 6px; }
+
+        /* ===== الصفحة 7: Education + Languages ===== */
+        .education-title { margin-bottom: 20px; }
+        .education-title h2 { font-size: 1.2rem; margin-bottom: 6px; }
+        .education-title p { font-size: 0.75rem; letter-spacing: 0.5px; }
+        .education-card { padding: 18px 16px; border-radius: 16px; }
+        .education-card + .education-card { margin-top: 12px; }
+        .education-header { gap: 12px; margin-bottom: 14px; padding-bottom: 12px; }
+        .education-icon { width: 46px; height: 46px; font-size: 1.2rem; border-radius: 12px; }
+        .education-info h3 { font-size: 1rem; line-height: 1.35; margin-bottom: 4px; }
+        .education-info .university { font-size: 0.8rem; gap: 6px; margin-bottom: 6px; }
+        .education-info .university i { font-size: 0.75rem; }
+        .education-period { font-size: 0.5rem; padding: 4px 10px; gap: 5px; }
+        .education-desc { font-size: 0.8rem; line-height: 1.6; }
+
+      /* Languages Grid - موبايل */
+             .languages-grid { 
+            grid-template-columns: repeat(3, 1fr) !important; 
+            gap: 6px !important; 
+        }
+        .lang-item { 
+            padding: 12px 6px; 
+            border-radius: 10px; 
+            gap: 3px; 
+        }
+        .lang-item .lang-name { 
+            font-size: 0.85rem; 
+            letter-spacing: 0.3px;
+        }
+        .lang-item .lang-level { 
+            font-size: 0.6rem; 
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== الصفحة 8: Get In Touch ===== */
+        .contact-title { margin-bottom: 20px; }
+        .contact-title h2 { font-size: 1.3rem; margin-bottom: 6px; }
+        .contact-title p { font-size: 0.75rem; letter-spacing: 0.5px; }
+        .contact-intro { padding: 16px 14px; border-radius: 16px; margin-bottom: 14px; }
+        .contact-intro p { font-size: 0.85rem;     text-align: left;
+    direction: ltr; line-height: 1.65; }
+        .contact-grid { grid-template-columns: 1fr; gap: 10px; margin-bottom: 24px; }
+        .contact-card { padding: 16px 14px; border-radius: 14px; gap: 8px; }
+        .contact-card-icon { width: 42px; height: 42px; font-size: 1.1rem; border-radius: 12px; }
+        .contact-card-label { font-size: 0.65rem; letter-spacing: 1.2px; }
+        .contact-card-value { font-size: 0.85rem; }
+
+        /* ===== الصفحة 9: Social ===== */
+        .social-title { margin-bottom: 22px; }
+        .social-title h2 { font-size: 1.3rem; margin-bottom: 6px; }
+        .social-title p { font-size: 0.75rem; letter-spacing: 0.5px; }
+        .social-big-icons { gap: 10px; margin-top: 24px; margin-bottom: 0; }
+        .social-big-icon { width: 50px; height: 50px; font-size: 1.3rem; border-radius: 14px; }
+        .social-info-block { padding: 16px 14px; border-radius: 16px; }
+        .social-info-row { gap: 10px; padding: 10px 0; }
+        .social-info-row i { font-size: 0.95rem; width: 22px; }
+        .social-info-row span { font-size: 0.85rem; }
+
+        /* ===== السلايدر + الحاويات ===== */
+        .swiper-container { height: 100dvh !important; }
+        .vertical-nav { right: 8px; gap: 10px; }
+        .nav-dot { width: 2px; height: 11px; }
+        .nav-dot.active { height: 26px; }
+
+        /* ===== الأقسام: تبدأ من فوق مع padding مناسب ===== */
+        .section-content {
+            justify-content: flex-start !important;
+            padding: 55px 14px 45px 14px !important;
+        }
+
+        /* الأقسام القصيرة تفضل متمركزة */
+        .pitch-section .section-content,
+        .about-section .section-content {
+            justify-content: center !important;
+            padding: 50px 14px !important;
+        }
+
+        /* السلايدر يفضل متمركز */
+        .first-section .section-content {
+            padding: 0 !important;
+            justify-content: center !important;
+        }
+
+        /* تأكيد الخلفية على الموبايل */
+        .pitch-section::before,
+        .about-section::before,
+        .licences-section::before,
+        .skills-section::before,
+        .experience-section::before,
+        .education-section::before,
+        .contact-section::before,
+        .social-section::before {
+            background-attachment: scroll, scroll !important;
+            background-size: cover, cover !important;
+            background-position: center center, center center !important;
+            background-repeat: no-repeat, no-repeat !important;
+        }
+    }
+
+    /* ===== صورة السلايد الأولى حسب حجم الشاشة ===== */
+    /* الموبايل (أقل من 850px) */
+    @media (max-width: 850px) {
+        .swiper-slide {
+            background-image: url('https://truckdriver.shairha.com/wp-content/uploads/2026/10/MOB_1.webp') !important;
+        }
+    }
+    /* التابلت (من 851px إلى 1200px) */
+    @media (min-width: 851px) and (max-width: 1200px) {
+        .swiper-slide {
+            background-image: url('https://truckdriver.shairha.com/wp-content/uploads/2026/10/TAB_1.webp') !important;
+        }
+    }
+    /* الكمبيوتر (أكبر من 1200px) */
+    @media (min-width: 1201px) {
+        .swiper-slide {
+            background-image: url('https://truckdriver.shairha.com/wp-content/uploads/2026/10/PC_1.webp') !important;
+        }
+    }
+</style>
+
+
+<div class="vertical-nav">
+    <div class="nav-dot" data-index="0"></div>
+    <div class="nav-dot" data-index="1"></div>
+    <div class="nav-dot" data-index="2"></div>
+    <div class="nav-dot" data-index="3"></div>
+    <div class="nav-dot" data-index="4"></div>
+    <div class="nav-dot" data-index="5"></div>
+    <div class="nav-dot" data-index="6"></div>
+
+</div>
+
+<div class="vertical-slider" id="verticalSlider">
+
+    <!-- ===== الصفحة 1: سلايدر أفقي ===== -->
+    <section class="v-section first-section">
+        <div class="section-content">
+            <div class="swiper-container" id="horizontalSwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="slide-text">
+                       <h2>YAHIA HASSAN</h2>
+
+                            <p>Heavy Truck Driver</p>
+
+                            <div class="slide-badges">
+                              <span class="slide-badge" dir="ltr">
+    <i class="fas fa-truck"></i> +5 YEARS IN UAE
+</span>
+                                <span class="slide-badge" dir="ltr">
+    <i class="fas fa-id-card"></i> 15+ YEARS DRIVING EXPERIENCE
+</span>
+                                <span class="slide-badge" dir="ltr">
+    <i class="fas fa-certificate"></i>&nbsp; UAE Cat. 4 MANUAL
+</span>                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=""></div>
+                <div class=""></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== الصفحة 2: النبذة + خلفية + أزرار ===== -->
+    <section class="v-section pitch-section">
+        <div class="section-content">
+            <div class="pitch-box">
+                <div class="pitch-label">About me</div>
+
+                <ul class="pitch-list">
+                    <li class="pitch-text">
+                        Professional licensed driver with <strong>15+ years</strong> of overall driving experience, including <strong>5+ years</strong> of practical driving experience in the UAE. Holder of a valid <strong>UAE Heavy Truck Driving License (Category 4, Manual)</strong>, with strong knowledge of UAE traffic regulations, GPS navigation, route planning, and defensive driving.
+                    </li>
+                    <li class="pitch-text">
+                        Physically fit, disciplined, safety-conscious, and experienced in safe vehicle operation, pre-trip safety inspections, and basic vehicle troubleshooting. Seeking a <strong>Heavy Truck Driver</strong> position in the UAE to contribute to safe, efficient, and reliable transportation operations.
+                    </li>
+                </ul>
+
+                <div class="pitch-actions">
+                    <a href="https://truckdriver.shairha.com/wp-content/uploads/2026/11/Yahia-Hassan-Truck-Driver-UAE_2.pdf" target="_blank" rel="noopener noreferrer" download="Yahia-Hassan-Truck-Driver.pdf" class="pitch-btn pitch-btn-cv">
+                        <i class="fas fa-file-pdf"></i>
+                        Download Full CV (PDF)
+                    </a>
+                    <a href="https://wa.me/971501600845" target="_blank" class="pitch-btn pitch-btn-wa">
+                        <i class="fab fa-whatsapp"></i>
+                        Contact via WhatsApp
+                    </a>
+                </div>
+
+                <div class="about-tags">
+           
+               
+                  
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== الصفحة 4: Licences & Driving Qualifications ===== -->
+    <section class="v-section licences-section">
+        <div class="section-content">
+            <div class="licences-box">
+                <div class="licences-title">
+                    <h2>Licences &amp; <span>Driving Qualifications</span></h2>
+                    <p> </p>
+                </div>
+
+                <div class="licences-grid">
+
+                    <!-- UAE Heavy Truck -->
+                    <div class="licence-card">
+                        <div class="licence-top-row">
+                            <div class="licence-icon">
+                                <i class="fas fa-truck-moving"></i>
+                            </div>
+                            <div class="licence-top-right">
+                                <span class="licence-status">Active / Valid</span>
+                                <button type="button" class="licence-view-btn" data-img="https://truckdriver.shairha.com/wp-content/uploads/2026/10/licence_3.webp" aria-label="View Licence">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <h3>UAE Heavy Truck Driving Licence — <span>Category 4 (Manual)</span></h3>
+                        <div class="licence-meta">
+                            <div class="licence-meta-row">
+                         
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- UAE Light Vehicle -->
+                    <div class="licence-card">
+                        <div class="licence-top-row">
+                            <div class="licence-icon">
+                                <i class="fas fa-car-side"></i>
+                            </div>
+                            <div class="licence-top-right">
+                                <span class="licence-status">Active / Valid</span>
+                                <button type="button" class="licence-view-btn" data-img="https://truckdriver.shairha.com/wp-content/uploads/2026/10/licence_4.webp" aria-label="View Licence">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <h3>UAE Light Vehicle <span>Driving Licence</span></h3>
+                        <div class="licence-meta">
+                            <div class="licence-meta-row">
+                          
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- International & Base -->
+                    <div class="licence-card">
+                        <div class="licence-top-row">
+                            <div class="licence-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="licence-top-right">
+                                <span class="licence-status">Active / Valid</span>
+                               
+                            </div>
+                        </div>
+                        <h3>International &amp; <span>Base Driving Licences</span></h3>
+                        <div class="licence-meta">
+                            <div class="licence-meta-row">
+                                <span class="label">Egyptian Light Vehicle Driving Licence</span>
+                            </div>
+                            <div class="licence-meta-row">
+                                <span class="label">Egyptian Motorcycle Driving Licence</span>
+                         
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Safety Record (كامل العرض) -->
+                    <div class="licence-card safety-record">
+                        <div class="licence-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="safety-content">
+                            <h3>Driving Safety Record</h3>
+                            <p>
+                                <strong>100% Clean Record</strong> — Zero Major Accidents / Zero Black Points.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- ===== الصفحة 5: Work Experience ===== -->
+<section class="v-section experience-section">
+    <div class="section-content">
+        <div class="experience-box">
+            <div class="experience-title">
+                <h2>Work <span>Experience</span></h2>
+                <p> </p>
+            </div>
+
+            <div class="timeline">
+
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <div class="timeline-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="timeline-role">
+                            <h3>TMA TRUCK DRIVER</h3>
+                            <div class="company">
+                                <i class="fas fa-building" style="color:#39ff14; margin-right:6px;"></i>Mango Road Contracting L.L.C — Dubai, UAE
+                            </div>
+                        </div>
+                        <span class="timeline-period">
+                            <i class="fas fa-calendar-alt"></i> Aug 2026 – Present
+                        </span>
+                    </div>
+                    <ul class="timeline-list">
+                        <li><i class="fas fa-circle"></i>Operated TMA trucks to secure work zones and protect road crews per RTA standards.</li>
+                        <li><i class="fas fa-circle"></i>Guided traffic using LED arrow boards and performed daily vehicle inspections.</li>
+                        <li><i class="fas fa-circle"></i>Coordinated with site supervisors to secure work areas and emergency sites.</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <div class="timeline-icon">
+                            <i class="fas fa-snowflake"></i>
+                        </div>
+                        <div class="timeline-role">
+                            <h3>REFRIGERATED TRUCK DRIVER</h3>
+                            <div class="company">
+                                <i class="fas fa-building" style="color:#39ff14; margin-right:6px;"></i>Freelance — Dubai, UAE
+                            </div>
+                        </div>
+                        <span class="timeline-period">
+                            <i class="fas fa-calendar-alt"></i> Aug 2024 – Jul 2026
+                        </span>
+                    </div>
+                    <ul class="timeline-list">
+                        <li><i class="fas fa-circle"></i>Operated large refrigerated trucks to transport and distribute fruits and vegetables.</li>
+                        <li><i class="fas fa-circle"></i>Ensured timely deliveries and managed daily distribution routes efficiently.</li>
+                        <li><i class="fas fa-circle"></i>Used GPS navigation and route planning to complete deliveries safely and efficiently.</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <div class="timeline-icon">
+                            <i class="fas fa-ship"></i>
+                        </div>
+                        <div class="timeline-role">
+                            <h3>PORT TRUCK DRIVER</h3>
+                            <div class="company">
+                                <i class="fas fa-building" style="color:#39ff14; margin-right:6px;"></i>Al Hamriya Port — Dubai, UAE
+                            </div>
+                        </div>
+                        <span class="timeline-period">
+                            <i class="fas fa-calendar-alt"></i> May 2023 – Apr 2024
+                        </span>
+                    </div>
+                    <ul class="timeline-list">
+                        <li><i class="fas fa-circle"></i>Operated and drove heavy trucks and vehicles off/on vessels (RORO operations) inside Al Hamriyah Port.</li>
+                        <li><i class="fas fa-circle"></i>Safely parked and positioned trucks within port yards and designated areas.</li>
+                        <li><i class="fas fa-circle"></i>Followed strict port safety regulations and maritime terminal guidelines.</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <div class="timeline-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <div class="timeline-role">
+                            <h3>WATER TANKER DRIVER</h3>
+                            <div class="company">
+                                <i class="fas fa-building" style="color:#39ff14; margin-right:6px;"></i>Freelance — Dubai, UAE
+                            </div>
+                        </div>
+                        <span class="timeline-period">
+                            <i class="fas fa-calendar-alt"></i> May 2022 – Apr 2023
+                        </span>
+                    </div>
+                    <ul class="timeline-list">
+                        <li><i class="fas fa-circle"></i>Operated water tankers independently to transport and deliver supplies across Dubai.</li>
+                        <li><i class="fas fa-circle"></i>Managed safe loading and offloading operations efficiently.</li>
+                        <li><i class="fas fa-circle"></i>Conducted routine vehicle inspections and complied with UAE traffic laws.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- ===== الصفحة 4: Core Competencies & Skills ===== -->
+    <section class="v-section skills-section">
+        <div class="section-content">
+            <div class="skills-box">
+                <div class="skills-title">
+                    <h2>Key Technical &amp; <span>Operational Skills</span></h2>
+                    <p> </p>
+                </div>
+
+                <div class="skills-grid">
+
+                    <div class="skill-card">
+                        <div class="skill-card-header">
+                            <div class="skill-card-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <h3>
+                                Vehicle &amp; Transport Operations
+                             
+                            </h3>
+                        </div>
+                        <ul class="skill-list">
+                            <li><i class="fas fa-circle"></i> Heavy Truck Driving (Category 4 Manual Transmission)</li>
+                            <li><i class="fas fa-circle"></i> Defensive Driving &amp; Road Risk Assessment</li>
+                            <li><i class="fas fa-circle"></i> Pre-Trip &amp; Post-Trip Vehicle Safety Inspections</li>
+                            <li><i class="fas fa-circle"></i> Basic Troubleshooting &amp; OBD Diagnostics Awareness</li>
+                            <li><i class="fas fa-circle"></i> Eco-Driving &amp; Fuel-Efficiency Techniques</li>
+                        </ul>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="skill-card-header">
+                            <div class="skill-card-icon">
+                                <i class="fas fa-route"></i>
+                            </div>
+                            <h3>
+                                Navigation &amp; Logistics
+                    
+                            </h3>
+                        </div>
+                        <ul class="skill-list">
+                            <li><i class="fas fa-circle"></i> Advanced GPS Navigation &amp; Smart Route Planning</li>
+                            <li><i class="fas fa-circle"></i> In-depth knowledge of UAE Traffic Laws &amp; Heavy Vehicle Regulations</li>
+                            <li><i class="fas fa-circle"></i> Cargo Handling &amp; Schedule Adherence</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== الصفحة 7: Education + Languages ===== -->
+ <section class="v-section education-section">
+        <div class="section-content">
+            <div class="education-box">
+                <div class="education-title">
+                    <h2>Education</h2>
+                
+                </div>
+
+                <!-- كارت الشهادة -->
+                <div class="education-card">
+                    <div class="education-header">
+                        <div class="education-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="education-info">
+                            <h3>Bachelor's Degree in <span>Physical Education</span></h3>
+                            <div class="education-meta-row">
+                                <div class="university">
+                                    <i class="fas fa-university"></i>
+                                    Helwan University, Cairo, Egypt
+                                </div>
+                                <span class="education-period">
+                                    <i class="fas fa-calendar-alt"></i> 2006 – 2012
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="education-desc">
+                        Provides strong <strong>physical conditioning</strong>, <strong>discipline</strong>, and 
+                        <strong>stress-management capabilities</strong> required for long-distance heavy driving.
+                    </div>
+                </div>
+  <!-- عنوان Languages -->
+                <div class="education-title" style="margin-top: 40px;">
+                    <h2>Languages</h2>
+                </div>
+
+                <!-- كارت Languages -->
+                <div class="education-card">
+                    <div class="education-header">
+                        <div class="education-icon">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <div class="education-info">
+                            <h3>Languages <span>Spoken</span></h3>
+                            <div class="university">
+                                <i class="fas fa-comments"></i>
+                                Communication &amp; Documentation
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="languages-grid">
+                        <div class="lang-item">
+                            <div class="lang-name">Arabic</div>
+                            <div class="lang-level">Native</div>
+                        </div>
+                        <div class="lang-item">
+                            <div class="lang-name">English</div>
+                            <div class="lang-level">Intermediate (B1)</div>
+                        </div>
+                        <div class="lang-item">
+                            <div class="lang-name">German</div>
+                            <div class="lang-level">Basic (A1)</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- ===== الصفحة 8: Get In Touch ===== -->
+    <section class="v-section contact-section">
+        <div class="section-content">
+            <div class="contact-box">
+
+                <div class="contact-title">
+                    <h2>Get In <span>Touch</span></h2>
+                    <p>Contact &amp; Availability</p>
+                </div>
+
+                <div class="contact-intro">
+                    <p>
+                        I am currently available in <strong>Dubai</strong> for immediate 
+                        <strong>interview and trial runs</strong>. Open to permanent 
+                        <strong>Heavy Truck Driver roles</strong> across the 
+                        <strong>UAE and international opportunities</strong>.
+                    </p>
+                </div>
+
+                <div class="contact-grid">
+
+                    <a href="https://wa.me/971501600845" target="_blank" class="contact-card">
+                        <div class="contact-card-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="contact-card-label">Phone / WhatsApp</div>
+                        <div class="contact-card-value">+971 501600845</div>
+                    </a>
+
+                    <a href="mailto:yahya.hassan.official89@gmail.com" class="contact-card">
+                        <div class="contact-card-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-card-label">Email</div>
+                        <div class="contact-card-value">yahya.hassan.official89@gmail.com</div>
+                    </a>
+
+                </div>
+
+             ```html
+<div class="social-big-icons">
+
+    <!-- WhatsApp -->
+    <a href="https://wa.me/971501600845" target="_blank" rel="noopener noreferrer" class="social-big-icon" title="WhatsApp" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Phone -->
+    <a href="tel:+971501600845" class="social-big-icon" title="Call" aria-label="Call">
+        <i class="fas fa-phone"></i>
+    </a>
+
+    <!-- Email -->
+    <a href="mailto:yahya.hassan.official89@gmail.com" class="social-big-icon" title="Email" aria-label="Email">
+        <i class="fas fa-envelope"></i>
+    </a>
+
+    <!-- Download CV -->
+    <a href="https://truckdriver.shairha.com/wp-content/uploads/2026/11/Yahia-Hassan-Truck-Driver-UAE_2.pdf" target="_blank" rel="noopener noreferrer" download="Yahia-Hassan-Truck-Driver.pdf" class="social-big-icon" title="Download CV" aria-label="Download CV">
+        <i class="fas fa-file-pdf"></i>
+    </a>
+
+</div></div></div></section></div>
+
+<!-- ===== Licence Popup ===== -->
+<div class="licence-popup" id="licencePopup">
+    <div class="licence-popup-inner">
+        <button type="button" class="licence-popup-close" id="licencePopupClose" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+        <img src="" alt="Licence" id="licencePopupImg">
+    </div>
+</div>
+
+<script>
+    (function() {
+        var popup = document.getElementById('licencePopup');
+        var popupImg = document.getElementById('licencePopupImg');
+        var closeBtn = document.getElementById('licencePopupClose');
+        var viewBtns = document.querySelectorAll('.licence-view-btn');
+
+        function openPopup(src) {
+            popupImg.src = src;
+            popup.classList.add('active');
+        }
+
+        function closePopup() {
+            popup.classList.remove('active');
+            setTimeout(function() { popupImg.src = ''; }, 350);
+        }
+
+        viewBtns.forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var img = btn.getAttribute('data-img');
+                if (img) openPopup(img);
+            });
+        });
+
+        closeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            closePopup();
+        });
+
+        popup.addEventListener('click', function(e) {
+            if (e.target === popup) closePopup();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && popup.classList.contains('active')) {
+                closePopup();
+            }
+        });
+    })();
+</script>
+
+<!-- ===== Vertical Nav Dots Script ===== -->
+<script>
+    (function() {
+        var slider = document.getElementById('verticalSlider');
+        var nav = document.querySelector('.vertical-nav');
+        var dots = document.querySelectorAll('.nav-dot');
+        var sections = document.querySelectorAll('.v-section');
+
+        if (!slider || !nav || !dots.length || !sections.length) return;
+
+        var hideTimer = null;
+        var HIDE_DELAY = 1000; // 2 ثانية
+
+        // إظهار النقط أثناء التمرير وإخفاؤها بعد 2 ثانية من آخر تمرير
+        function showNavTemporarily() {
+            // لا تظهر النقط لو إحنا في أول صفحة
+            if (slider.scrollTop <= 50) {
+                nav.classList.remove('visible');
+                return;
+            }
+
+            nav.classList.add('visible');
+
+            if (hideTimer) clearTimeout(hideTimer);
+            hideTimer = setTimeout(function() {
+                // متخفيش لو المستخدم لسه واقف في أول صفحة
+                if (slider.scrollTop > 50) {
+                    nav.classList.remove('visible');
+                }
+            }, HIDE_DELAY);
+        }
+
+        // تحديث النقطة النشطة حسب القسم الظاهر
+        function updateActiveDot() {
+            var scrollPos = slider.scrollTop + (window.innerHeight / 2);
+            var currentIndex = 0;
+
+            sections.forEach(function(section, index) {
+                var sectionTop = section.offsetTop;
+                var sectionBottom = sectionTop + section.offsetHeight;
+                if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+                    currentIndex = index;
+                }
+            });
+
+            dots.forEach(function(dot, index) {
+                if (index === currentIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // الضغط على النقطة ينقل للقسم المطلوب
+        dots.forEach(function(dot) {
+            dot.addEventListener('click', function() {
+                var index = parseInt(dot.getAttribute('data-index'), 10);
+                if (sections[index]) {
+                    sections[index].scrollIntoView({ behavior: 'smooth' });
+                    // إظهار النقط بعد النقل لبرهة
+                    showNavTemporarily();
+                }
+            });
+        });
+
+        // ربط الأحداث
+        slider.addEventListener('scroll', function() {
+            showNavTemporarily();
+            updateActiveDot();
+        });
+
+        // تشغيل أولي
+        updateActiveDot();
+        if (slider.scrollTop > 50) {
+            showNavTemporarily();
+        }
+    })();
+</script>
